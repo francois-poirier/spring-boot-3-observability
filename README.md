@@ -1,4 +1,6 @@
-# spring-boot-3-observability# Tracing with Spring Cloud Sleuth, OpenTelemetry and Grafana
+# spring-boot-3-observability
+
+# OpenTelemetry and Grafana
 
 ## Running and exploring Grafana stack
 
@@ -14,6 +16,8 @@
 The above HTTP call goes to the `post-service`, which will call the `comment-service` for additional information. This will create a trace across both services, as should be evident in the logs with the same trace id.
 
 The `docker compose` command also starts up an OpenTelemetry Collector, to which the Spring Boot apps send their traces. The OpenTelemetry Collector, in turn, sends the traces to Grafana.
+
+# OpenTelemetry and Elastic
 
 ## Running and exploring Elastic stack
 
