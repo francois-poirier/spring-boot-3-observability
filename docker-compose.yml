@@ -1,0 +1,58 @@
+version: '3.9'
+
+networks:
+  observability_poc:
+    external: true
+    name: observability_poc
+
+volumes:
+  observability_poc:
+    external: true
+    name: observability_poc
+
+services:
+
+  comment-service:
+    build: comment-service/
+    image: comment-service:latest
+    networks:
+      - observability_poc
+    environment:
+      OTEL_SERVICE_NAME: "comment-service"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
+      OTEL_TRACES_EXPORTER: "otlp"
+      OTEL_LOGS_EXPORTER: "otlp"
+      OTEL_METRICS_EXPORTER: "none"
+      OTEL_EXPERIMENTAL_EXPORTER_OTLP_RETRY_ENABLED: "true"
+    ports:
+      - "8002:8002"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8002/actuator/health" ]
+      start_period: 60s
+      interval: 10s
+      timeout: 10s
+      retries: 12
+
+  post-service:
+    build: post-service/
+    image: post-service:latest
+    networks:
+      - observability_poc
+    environment:
+      OTEL_SERVICE_NAME: "post-service"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
+      OTEL_TRACES_EXPORTER: "otlp"
+      OTEL_LOGS_EXPORTER: "otlp"
+      OTEL_METRICS_EXPORTER: "none"
+      OTEL_EXPERIMENTAL_EXPORTER_OTLP_RETRY_ENABLED: "true"
+      COMMENT_SERVICE_BASE_URL: "http://comment-service:8002"
+    ports:
+      - "8001:8001"
+    depends_on:
+      - comment-service
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8001/actuator/health" ]
+      start_period: 60s
+      interval: 10s
+      timeout: 10s
+      retries: 12
