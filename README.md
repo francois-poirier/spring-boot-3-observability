@@ -1,6 +1,6 @@
 # spring-boot-3-observability "working Progress"
 
-# OpenTelemetry and Grafana
+# OpenTelemetry Collector and Grafana
 
 ## Running and exploring Grafana stack
 
@@ -17,7 +17,7 @@ The above HTTP call goes to the `post-service`, which will call the `comment-ser
 
 The `docker compose` command also starts up an OpenTelemetry Collector, to which the Spring Boot apps send their traces. The OpenTelemetry Collector, in turn, sends the traces to Grafana.
 
-# OpenTelemetry and Elastic
+# OpenTelemetry Collector and Elastic
 
 ## Running and exploring Elastic stack
 
