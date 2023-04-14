@@ -10,7 +10,7 @@
 - run `docker compose -f grafana/docker-compose.yml up -d` to start grafana in the background
 - run the services with `docker compose up --build`
 - run test-apis.sh script `test-apis.sh`
-- open `http://localhost:3000/explore` in you browser while watching for the logs of the api-service.
+- open `http://localhost:3000/explore` in you browser while watching for the logs of the post-service.
 - Notice the trace ids in the logs, second value into brackets. In grafana, go to the Explore View, select Tempo in the top left drop-down menu, and enter a Trace ID to see its content.
 
 The above HTTP call goes to the `post-service`, which will call the `comment-service` for additional information. This will create a trace across both services, as should be evident in the logs with the same trace id.
@@ -20,3 +20,12 @@ The `docker compose` command also starts up an OpenTelemetry Collector, to which
 # OpenTelemetry and Elastic
 
 ## Running and exploring Elastic stack
+
+- run `./mvnw clean install` to build the two Spring Boot applications (`post-service` and `comment-service`)
+- create the dedicated docker network so that services can reach each other and elastic with `docker network create observability_poc`
+- create the dedicated docker volume so that services can reach each other and elastic with `docker volume create observability_poc`
+- run `docker compose -f grafana/docker-compose.yml up -d` to start elastic in the background
+- run the services with `docker compose up --build`
+- run test-apis.sh script `test-apis.sh`
+- open `http://localhost:5601` in you browser while watching for the logs of the post-service in kibana.
+
