@@ -1,4 +1,4 @@
-# spring-boot-3-observability
+# spring-boot-3-observability "working Progress"
 
 # OpenTelemetry and Grafana
 
@@ -20,5 +20,3 @@ The `docker compose` command also starts up an OpenTelemetry Collector, to which
 # OpenTelemetry and Elastic
 
 ## Running and exploring Elastic stack
-
-### Working Progress
